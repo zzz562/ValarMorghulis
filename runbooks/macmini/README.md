@@ -27,7 +27,7 @@
 | **物理位置** | bzl-iot 网段，与 MacBook 同一 AP（隔离） |
 | **Thunderbolt IP** | `169.254.230.133`（bridge0，直连 MacBook，<1ms） |
 | **VPS 跳板** | `139.224.244.214`（阿里云上海轻量 Agentic/OpenClaw 机；反向隧道端口 2222） |
-| **VPS runbook** | 见 `../aliyun-openclaw-runbook/README.md`（OpenClaw Gateway + 跳板双角色） |
+| **VPS runbook** | 见 `../aliyun-openclaw/README.md`（OpenClaw Gateway + 跳板双角色） |
 
 ---
 
@@ -335,7 +335,7 @@ openclaw cron edit <id> --message "..." --announce --to 5102138680 --channel tel
 - 架构：`MacBook → VPS:22 → localhost:2222 → Mac mini:22`
 - 仅使用 SSH 端口 22，无额外协议
 - **同一台 VPS 还跑 OpenClaw Gateway**（`:13749`）与 SearXNG 等，完整说明见  
-  **`../aliyun-openclaw-runbook/README.md`**
+  **`../aliyun-openclaw/README.md`**
 
 ### 代理
 
@@ -511,6 +511,6 @@ openclaw models auth login --provider xai
 ## 参考链接
 
 - OpenClaw: https://github.com/openclaw/openclaw
-- 阿里云 OpenClaw VPS runbook: `../aliyun-openclaw-runbook/README.md`
+- 阿里云 OpenClaw VPS runbook: `../aliyun-openclaw/README.md`
 - 主项目仓库: https://github.com/zzz562/whaletrail-lab
 - WhaleTrail 代码: `~/Projects/whaletrail-lab/projects/whaletrail/`

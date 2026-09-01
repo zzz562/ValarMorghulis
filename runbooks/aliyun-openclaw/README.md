@@ -32,7 +32,7 @@ MacBook ──ssh aliyun-vps──> 本机 (VPS)
 MacBook ──ssh macmini-remote──> VPS:22 ──ProxyJump──> localhost:2222 ──> Mac mini
 ```
 
-Mac mini 侧 runbook：`macmini-runbook/README.md`。
+Mac mini 侧 runbook：`../macmini/README.md`。
 
 ---
 
@@ -338,5 +338,5 @@ ss -tlnp | grep 2222          # 无监听 = mini 隧道断了
 
 - OpenClaw 文档：https://docs.openclaw.ai/
 - 故障排查：https://docs.openclaw.ai/troubleshooting
-- Mac mini runbook：`../macmini-runbook/README.md`
+- Mac mini runbook：`../macmini/README.md`
 - 阿里云控制台轻量应用服务器：实例 `139.224.244.214` · 地域上海

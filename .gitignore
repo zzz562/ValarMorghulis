@@ -1,2 +1,19 @@
+# OS / editor cruft
+.DS_Store
+**/.DS_Store
 
-Ana_Victoria/hk_jobsdb.txt
+# Secrets — never commit
+.env
+*.env
+*.key
+*_key
+secrets.*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# Legacy playground ignore (kept for history)
+archive/playground/Ana_Victoria/hk_jobsdb.txt
