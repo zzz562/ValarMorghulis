@@ -14,7 +14,4 @@ __pycache__/
 *.pyc
 .venv/
 .ipynb_checkpoints/
-
-# Legacy playground ignore (kept for history)
-archive/playground/Ana_Victoria/hk_jobsdb.txt
 .vscode

@@ -4,8 +4,7 @@
 
 | 项目 | 状态 | 代码位置 | 索引 |
 |------|------|----------|------|
-| **WhaleTrail Lab** | Active（主项目） | `~/github_code/whaletrail-lab`（alias `gwht`）· Git `zzz562/whaletrail-lab` | [`whaletrail/`](whaletrail/README.md) |
-| ValarmClub | 历史参考 | `~/github_code/ValarmClub` · Git `zzz562/ValarmClub` | [`valarmclub/SUMMARY.md`](valarmclub/SUMMARY.md) |
+| **WhaleTrail Lab** | Active（主项目 · 黄金 + A 股两本账） | `~/github_code/whaletrail-lab`（alias `gwht`）· Git `zzz562/whaletrail-lab` | [`whaletrail/`](whaletrail/README.md) |
 
 ## 新增项目登记流程
 
