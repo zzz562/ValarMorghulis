@@ -1,6 +1,6 @@
 # Mac Mini Runbook
 
-> 最后更新：2026-08-11 | 维护人：zeph
+> 最后更新：2026-09-02 | 维护人：zeph
 > 
 > ⚠️ **当前已知问题：** xAI 认证 token 即将过期（6h），需在 Mac mini 上执行 `openclaw models auth login --provider xai` 刷新。
 > 
@@ -199,16 +199,16 @@ git clean -fd
 
 ---
 
-## WhaleTrail — 黄金为主 Paper Trading
+## WhaleTrail — 黄金 + A 股两本账
 
-> **主：黄金 GLD。辅：美股指数 SPY/QQQ 对冲。不做 A股/港股/高频。**  
-> 替代旧 LEAN / gold-paper。仓库：`whaletrail-lab/projects/whaletrail/`。
+> **黄金日线一本账**（GLD `gold_sma` paper vs 买入持有 vs SPY，情绪当天气；5m 只观察）。**A 股跟庄一本账**（现网 `config/watchlist.yaml`，15:30 paper/观察）。不做港股、不做高频。  
+> 替代旧 LEAN / gold-paper。仓库：`whaletrail-lab/projects/whaletrail/`。产品形状以该仓 `SCOPE.md` 为准。
 
 | 项目 | 值 |
 |------|-----|
 | 路径 | `~/Projects/whaletrail-lab/projects/whaletrail/` |
 | 定界文档 | `SCOPE.md` |
-| 数据源 | **仅 yfinance** + Parquet 缓存 |
+| 数据源 | 黄金/美股：yfinance + Parquet；A 股跟庄：Mini tvscreener（baostock 只作观察，不用 Tushare dump） |
 | 看板 | `http://127.0.0.1:8766/` |
 
 ### 常用操作
@@ -246,8 +246,8 @@ cd ~/Projects/whaletrail-lab/projects/whaletrail
 
 ### 明确不做
 
-- A股、港股、akshare、Tushare
-- 分钟/tick 高频
+- 港股；分钟/tick 高频
+- akshare / Tushare 全市场 dump（A 股跟庄用 Mini tvscreener）
 - LEAN / Docker（已归档 `~/archive/`）
 
 ### OpenClaw / Telegram
