@@ -1,6 +1,7 @@
 # box bot 角色规划（全局角色控制）
 
-> 给 **box 上运行期 bot** 看的角色/职责定义。box bot **读 valar 远端分支**获取本目录,所以改动要推到 `origin/main` 才生效。
+> 给 **box 上运行期 bot** 看的角色/职责定义。六个助手跑在共享 Grok Bot 机上，不在 Mac mini。
+> 人设源是 valar `origin/main` 本目录；**生效靠把 `roles/<bot>.md` 贴进该 bot 档案栏**，push 完侧边栏不会自动变。
 >
 > 文档分工:`runbooks/`(含 WhaleTrail 手册)是给**开发期 agent**(如 Grok Build 做开发/运维时)看的,**不是** box bot 的运行期角色。两者不混用。
 
@@ -28,7 +29,7 @@ valar 远端 (origin/main)  ──读取──▶  box(bot 群)
 |---|------|-----------|------|
 | 1 | **Axiom**（组织者 / owner） | WhaleTrail 运行时 owner:收敛已拍/不做/未决,盯现网,过审文案 | [`roles/axiom.md`](roles/axiom.md) |
 | 2 | **RD**（技术开发） | 工程位:在 whaletrail-lab 改读取/展示/扫描脚本与 docs,改前报文件与风险 | [`roles/rd.md`](roles/rd.md) |
-| 3 | **Big-A mast**（A 股研究） | A 股跟庄日线:阴线锚点 + 观察/接近/触发三分类,不荐股 | [`roles/big-a-mast.md`](roles/big-a-mast.md) |
+| 3 | **Big-A**（A 股研究） | A 股跟庄日线:阴线锚点 + 观察/接近/触发三分类,不荐股 | [`roles/big-a-mast.md`](roles/big-a-mast.md) |
 | 4 | **Gold Mast**（黄金研究） | 黄金一轨:现网 paper(GLD)/对照(GC=F 等)/纸黄金三线不混 | [`roles/gold-mast.md`](roles/gold-mast.md) |
 | 5 | **Data Mast**（DE & DA） | 数据合同:无源不出 OHLC,声明来源/日历/缺口 | [`roles/data-mast.md`](roles/data-mast.md) |
 | 6 | **Challenger**（审视者） | 按合同打回:查买卖词/标的混淆/无源出数/越权改现网 | [`roles/challenger.md`](roles/challenger.md) |
@@ -37,6 +38,6 @@ valar 远端 (origin/main)  ──读取──▶  box(bot 群)
 
 ## 边界与规则
 
-- 规则冲突(box bot 规则 vs 开发期 runbook)**本阶段不裁决**,等 box bot 正式接管后再定。已知冲突:Mac mini runbook 旧文案写「不做 A 股」,而现角色含 A 股跟庄轨——以 `whaletrail-lab/SCOPE.md` 为准,后续对齐。
+- 产品形状以 `whaletrail-lab/SCOPE.md` 为准。Mini runbook 已按「黄金 + A 股两本账」对齐；开发期仍不要把 Mini 写成六个 Grok Bot 的宿主。
 - 角色/职责变更走工作日志 [`journal/`](../journal/README.md) 留痕。
 - 不在本目录写任何密钥 / token。
