@@ -1,40 +1,43 @@
-# Grok / OpenClaw Bot 清单
+# Grok Bot 与 OpenClaw 清单
 
-> **角色规划见 [`ROLES.md`](ROLES.md)**（box 上 6 个 bot 的全局角色 / 职责，运行期读远端分支获取）。本文件是具体 Bot / 服务的清单与管理入口。
->
-> 服务器上运行的 AI Agent / Bot 登记表。密钥、Gateway Token **一律不写入本仓库**（见对应 runbook 的“备份清单”，实际值放机器上的 `~/.openclaw/.env` 等）。
+> **6 个 Grok Bot 人设见 [`ROLES.md`](ROLES.md)**。本文件分清：Grok Bot 主机上的助手 vs Mini/VPS 上的 OpenClaw 服务。密钥一律不进仓。
 
-## 清单
+## Grok Bot 助手（共用主机）
 
-| Bot / 服务 | 宿主 | 通道 / 端口 | 用途 | 管理手册 |
-|------------|------|-------------|------|----------|
-| **OpenClaw Gateway (Mac mini)** | Mac mini | loopback `:18789` | 本地推理 / 回测触发 / Telegram 后端 | [`runbooks/macmini/`](../runbooks/macmini/README.md) |
-| **Telegram `@iron_blade_bot`** | Mac mini（经 Gateway） | Telegram，白名单用户 `5102138680` | WhaleTrail 日报 / 情绪扫描 / 交互 | [`runbooks/macmini/`](../runbooks/macmini/README.md) |
-| **OpenClaw Gateway (VPS)** | 阿里云 VPS | `0.0.0.0:13749`（公网，token 鉴权） | 公网可达入口；聊天通道待接入 | [`runbooks/aliyun-openclaw/`](../runbooks/aliyun-openclaw/README.md) |
+宿主：Grok Bot Linux（经阿里云 `2223` SSH）。通道：各自 1:1 + 群 `project-ops`。
+
+Axiom · RD · Big-A · Gold Mast · Data Mast · Challenger。细则在 `ROLES.md`。
+
+应用里还有占位 `New Bot`（空壳，不进名册）。
+
+## Mini / VPS 服务（不是上面 6 个人）
+
+| 服务 | 宿主 | 通道 / 端口 | 用途 | 手册 |
+|------|------|-------------|------|------|
+| OpenClaw Gateway | Mac mini | loopback `:18789` | 本地推理 / Telegram 后端 | [`runbooks/macmini/`](../runbooks/macmini/README.md) |
+| Telegram `@iron_blade_bot` | Mac mini（经 Gateway） | Telegram，白名单用户见机器 env | WhaleTrail 日报 / 情绪 | 同上 |
+| OpenClaw Gateway | 阿里云 VPS | `:13749`（token） | 公网入口 | [`runbooks/aliyun-openclaw/`](../runbooks/aliyun-openclaw/README.md) |
 
 ## 关键操作速查
 
 ```bash
-# Mac mini — Gateway 状态 / 健康
+# Mac mini — Gateway
 launchctl list | grep openclaw
-curl -s http://127.0.0.1:18789/health        # {"ok":true}
+curl -s http://127.0.0.1:18789/health
 
-# VPS — Gateway 状态 / 健康
+# VPS — Gateway
 systemctl --user status openclaw-gateway
 curl -sS http://127.0.0.1:13749/health
-
-# OpenClaw 定时任务（Mac mini）
-openclaw cron list
 ```
 
 ## 定时任务（Mac mini）
 
-| 任务 | 调度 (Asia/Shanghai) | 类型 | 说明 |
-|------|----------------------|------|------|
-| `whaletrail-daily` | `30 8 * * 1-5` | command | 工作日 08:30 跑 `daily-report.sh gold_sma GLD` → Telegram |
-| `whaletrail-sentiment` | `0 9 * * *` | command | 每日 09:00 X KOL 情绪扫描 → Telegram |
+| 任务 | 调度 (Asia/Shanghai) | 说明 |
+|------|----------------------|------|
+| `whaletrail-daily` | `30 8 * * 1-5` | 工作日 08:30 `daily-report.sh gold_sma GLD` → Telegram |
+| `whaletrail-sentiment` | `0 9 * * *` | 每日 09:00 X KOL 情绪扫描 → Telegram |
 
 ## 安全约定
 
-- 不把 `gateway.auth.token`、模型 API Key、root 密码写进 git 或聊天记录。
-- VPS Gateway 目前 `bind=lan` 暴露公网，建议收紧为 loopback + SSH 转发或安全组锁 IP（见 VPS runbook 待办）。
+- 不把 Gateway token、模型 Key、SSH 密码写进 git 或聊天。
+- VPS Gateway 公网暴露见 VPS runbook 待办。
