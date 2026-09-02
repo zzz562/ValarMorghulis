@@ -17,8 +17,9 @@ Remote: `https://github.com/zzz562/ValarMorghulis.git`
 | `journal/` | 共享工作日志（box bot 与我的 agent 都可写；规则见 `journal/README.md`） |
 | `scripts/` | 通用小脚本（如模型连通性测试） |
 
-> **box bot 交付模型**：box(grok bot 主机)上的 6 个 bot **读本仓库的远端分支**获取全局指导与角色定义，
-> 所以面向 bot 的改动**必须推到 `origin/main`** 才生效。角色规划见 [`grok-bots/ROLES.md`](grok-bots/ROLES.md)。
+> **box bot 交付模型**：6 个 Grok Bot 助手跑在共享 Grok Bot 机（box）上，**不是** Mac mini。
+> 人设源是本仓 `origin/main` 的 [`grok-bots/roles/`](grok-bots/roles/)；**生效靠把 `roles/<bot>.md` 贴进该 bot 档案栏**，push 完侧边栏不会自动变。
+> OpenClaw / Telegram 是 Mini（及阿里云 Gateway）上的服务，和这六个人分开登记。角色规划见 [`grok-bots/ROLES.md`](grok-bots/ROLES.md)。
 
 ---
 
@@ -28,7 +29,7 @@ Remote: `https://github.com/zzz562/ValarMorghulis.git`
 
 | 设备 | 角色 | 运维手册 |
 |------|------|----------|
-| **Mac mini** (M4, `Zephyrs-Mac-mini.local`) | 主开发 / 本地推理 / 回测 / Grok Bot | [`runbooks/macmini/`](runbooks/macmini/README.md) |
+| **Mac mini** (M4, `Zephyrs-Mac-mini.local`) | 主开发 / 回测 / 看板 / OpenClaw Gateway | [`runbooks/macmini/`](runbooks/macmini/README.md) |
 | **阿里云 VPS** (`139.224.244.214`, 上海) | 公网 Gateway 入口 + Mac mini 反向隧道跳板 | [`runbooks/aliyun-openclaw/`](runbooks/aliyun-openclaw/README.md) |
 
 ### 项目
@@ -39,7 +40,7 @@ Remote: `https://github.com/zzz562/ValarMorghulis.git`
 
 ### Grok Bot（box 上运行）
 
-见 [`grok-bots/`](grok-bots/README.md) 与 [`grok-bots/ROLES.md`](grok-bots/ROLES.md)：Axiom / RD / Big-A / Gold / Data / Challenger 等 6 个 bot 的角色定义；相关 OpenClaw Gateway / Telegram 服务见清单。
+见 [`grok-bots/`](grok-bots/README.md) 与 [`grok-bots/ROLES.md`](grok-bots/ROLES.md)：Axiom / RD / Big-A / Gold Mast / Data Mast / Challenger 共 6 个助手（显示名 Big-A，不是 Big-A mast）。OpenClaw Gateway / Telegram 是 Mini/VPS 服务，见同一清单的下半部分。
 
 ---
 

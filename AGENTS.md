@@ -26,8 +26,9 @@
 
 ## box bot 交付模型
 
-- box(grok bot 主机）上的 **6 个 bot 读本仓库的远端分支**（`origin/main`）获取全局指导与角色定义。
-- 因此:**面向 box bot 的改动必须推到远端才生效**。角色规划见 `grok-bots/ROLES.md`（每个 bot 的档案在 `grok-bots/roles/<bot>.md`，只贴各自那一段）。
+- 6 个 Grok Bot 助手跑在共享 Grok Bot 机（box）上，**不是** Mac mini。OpenClaw Gateway / Telegram 住在 Mini（及阿里云 VPS），不要写成那六个人。
+- 人设源是本仓 `origin/main` 的 `grok-bots/roles/<bot>.md`。**生效靠把该段贴进该 bot 档案栏**；push 完侧边栏人设不会自动变。`roles/project-ops.md` 只贴群。
+- 面向 bot 的改动仍须先推到 `origin/main`，再贴档。角色规划见 `grok-bots/ROLES.md`。
 - 文档分工:`runbooks/`（含 WhaleTrail 手册）给**开发期 agent**（如 Grok Build）；`grok-bots/roles/` 给 **box 运行期 bot**。两者不混用。
 - 跨项目的角色/协作决策记入 `journal/`（只追加、写明作者、写前 `git pull --rebase`）。
 
@@ -36,9 +37,9 @@
 | 对象 | 类型 | 位置 / 手册 |
 |------|------|-------------|
 | WhaleTrail Lab（主项目 · 黄金 + A 股两本账） | 独立仓库 `gwht` | `~/github_code/whaletrail-lab` · 索引 `projects/whaletrail/` |
-| Mac mini | 设备 | `runbooks/macmini/README.md` |
+| Mac mini | 设备（开发 / 回测 / 看板 / OpenClaw） | `runbooks/macmini/README.md` |
 | 阿里云 VPS | 设备 | `runbooks/aliyun-openclaw/README.md` |
-| Grok bot 群（box） | 服务 | `grok-bots/README.md` · `grok-bots/ROLES.md` |
+| Grok bot 群（box 上 6 个助手） | 服务 | `grok-bots/README.md` · `grok-bots/ROLES.md` |
 
 ## Rules
 
