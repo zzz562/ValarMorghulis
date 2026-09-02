@@ -12,10 +12,14 @@ Remote: `https://github.com/zzz562/ValarMorghulis.git`
 | 路径 | 作用 |
 |------|------|
 | `projects/` | 各项目的索引与说明（代码在各自独立仓库，这里只做登记/引用） |
-| `runbooks/` | 设备与服务运维手册（Mac mini / 阿里云 VPS） |
-| `grok-bots/` | 服务器上运行的 Grok / OpenClaw Bot 清单与管理入口 |
+| `runbooks/` | 设备与服务运维手册（Mac mini / 阿里云 VPS）——给**开发期 agent**看 |
+| `grok-bots/` | box 上运行的 Grok / OpenClaw Bot 清单 + `ROLES.md`（运行期角色规划） |
+| `journal/` | 共享工作日志（box bot 与我的 agent 都可写；规则见 `journal/README.md`） |
 | `scripts/` | 通用小脚本（如模型连通性测试） |
 | `archive/` | 归档：`playground/` 为改造前的试验代码（notebooks / CSV） |
+
+> **box bot 交付模型**：box(grok bot 主机)上的 6 个 bot **读本仓库的远端分支**获取全局指导与角色定义，
+> 所以面向 bot 的改动**必须推到 `origin/main`** 才生效。角色规划见 [`grok-bots/ROLES.md`](grok-bots/ROLES.md)。
 
 ---
 

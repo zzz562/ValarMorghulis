@@ -1,5 +1,7 @@
 # Grok / OpenClaw Bot 清单
 
+> **角色规划见 [`ROLES.md`](ROLES.md)**（box 上 6 个 bot 的全局角色 / 职责，运行期读远端分支获取）。本文件是具体 Bot / 服务的清单与管理入口。
+>
 > 服务器上运行的 AI Agent / Bot 登记表。密钥、Gateway Token **一律不写入本仓库**（见对应 runbook 的“备份清单”，实际值放机器上的 `~/.openclaw/.env` 等）。
 
 ## 清单

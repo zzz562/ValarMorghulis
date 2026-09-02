@@ -19,10 +19,18 @@
 | 路径 | 作用 |
 |------|------|
 | `projects/` | 项目索引（WhaleTrail Lab / ValarmClub …） |
-| `runbooks/` | 设备运维手册（`macmini/`、`aliyun-openclaw/`） |
-| `grok-bots/` | 服务器上的 Grok / OpenClaw Bot 清单 |
+| `runbooks/` | 设备运维手册（`macmini/`、`aliyun-openclaw/`）——给**开发期 agent**看 |
+| `grok-bots/` | 服务器上的 Grok / OpenClaw Bot 清单 + `ROLES.md`（box bot 运行期角色） |
+| `journal/` | 共享工作日志（box bot 与我的 agent 都可写；规则见 `journal/README.md`） |
 | `scripts/` | 通用脚本 |
 | `archive/playground/` | 改造前试验代码归档 |
+
+## box bot 交付模型
+
+- box(grok bot 主机）上的 **6 个 bot 读本仓库的远端分支**（`origin/main`）获取全局指导与角色定义。
+- 因此:**面向 box bot 的改动必须推到远端才生效**。角色规划见 `grok-bots/ROLES.md`。
+- 文档分工:`runbooks/`（含 WhaleTrail 手册）给**开发期 agent**（如 Grok Build）；`grok-bots/ROLES.md` 给 **box 运行期 bot**。两者不混用。
+- 跨项目的角色/协作决策记入 `journal/`（只追加、写明作者、写前 `git pull --rebase`）。
 
 ## 项目 / 设备索引
 
