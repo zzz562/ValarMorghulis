@@ -7,14 +7,14 @@
 
 ## 部署铁律（重要）
 
-**每个 bot 的档案栏只贴它自己那一段（`roles/<bot>.md`）**,不要六段都塞进同一个 bot——上下文会互相污染,分轨就废了。**`roles/project-ops.md`(群说明)单独贴到群**,不进任何单个 bot。
+**每个 bot 的档案栏只贴它自己那一段（`roles/<bot>.md`）**,不要六段都塞进同一个 bot——上下文会互相污染,分轨就废了。**`roles/project-ops.md`（群说明）只贴进 whale-trail-lab 群**,不进任何单个 bot。
 
 ## 模型
 
 ```
-valar 远端 (origin/main)  ──读取──▶  box(bot 群)
+valar 远端 (origin/main)  ──读取──▶  box(bot 群 whale-trail-lab)
    ├─ grok-bots/roles/*.md      每个 bot 的角色（单独分发）
-   ├─ grok-bots/roles/project-ops.md  群协作说明（单独贴群）
+   ├─ grok-bots/roles/project-ops.md  群协作说明（只贴 whale-trail-lab）
    ├─ journal/                  跨项目决策与工作日志
    └─ projects/whaletrail/      当前重点项目索引
 ```
@@ -33,7 +33,7 @@ valar 远端 (origin/main)  ──读取──▶  box(bot 群)
 | 4 | **Gold Mast**（黄金研究） | 黄金一轨:现网 paper(GLD)/对照(GC=F 等)/纸黄金三线不混 | [`roles/gold-mast.md`](roles/gold-mast.md) |
 | 5 | **Data Mast**（DE & DA） | 数据合同:无源不出 OHLC,声明来源/日历/缺口 | [`roles/data-mast.md`](roles/data-mast.md) |
 | 6 | **Challenger**（审视者） | 按合同打回:查买卖词/标的混淆/无源出数/越权改现网 | [`roles/challenger.md`](roles/challenger.md) |
-| — | **project-ops**（群说明） | 群协作规则与发言顺序(单独贴群,非 bot) | [`roles/project-ops.md`](roles/project-ops.md) |
+| — | **project-ops**（群说明） | whale-trail-lab 群协作规则与发言顺序（只贴该群，非 bot） | [`roles/project-ops.md`](roles/project-ops.md) |
 | 7 | _第 7 个助手_ | _待定_（admin 提供名称与职责后按同格式补） | _TBD_ |
 
 ## 边界与规则
