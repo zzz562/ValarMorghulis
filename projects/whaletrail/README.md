@@ -22,7 +22,7 @@
 看板（只读监控）`http://127.0.0.1:8766/`。不做大而全平台；扩名单 / 换主策略 / 纸黄金独立文件都需 Axiom 拍板。
 
 > 产品形状与决策记录以 whaletrail-lab 仓库的 `SCOPE.md` 为准（box bot 角色对照 `grok-bots/ROLES.md`）。
-> 注意:Mac mini runbook 旧文案仍写「不做 A 股」,与现方向冲突,以 SCOPE.md 为准,后续对齐(规则冲突本阶段不裁决)。
+> Mini runbook 已按两本账对齐；六个 Grok Bot 住在 box 上，不是 Mini。
 
 ## 常用入口（在 Mac mini 上）
 

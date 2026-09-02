@@ -35,5 +35,6 @@
 |------|------|------|
 | 2026-09-02 | [box bot 角色规划启动](2026-09-02-box-bot-role-planning.md) | box 角色规划 |
 | 2026-09-02 | [bot 名册补全 + 主分支清理](2026-09-02-roster-filled-and-cleanup.md) | box 角色规划 / 清理 |
+| 2026-09-02 | [宿主拆分 + 贴档生效](2026-09-02-roles-host-and-delivery-align.md) | box 角色规划 |
 
 > 新增记录后在此加一行(表格也遵循「只追加」)。
