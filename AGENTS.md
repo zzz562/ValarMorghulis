@@ -27,7 +27,7 @@
 ## box bot 交付模型
 
 - 6 个 Grok Bot 助手跑在共享 Grok Bot 机（box）上，**不是** Mac mini。OpenClaw Gateway / Telegram 住在 Mini（及阿里云 VPS），不要写成那六个人。
-- 人设源是本仓 `origin/main` 的 `grok-bots/roles/<bot>.md`。**生效靠把该段贴进该 bot 档案栏**；push 完侧边栏人设不会自动变。`roles/project-ops.md` 只贴群。
+- 人设源是本仓 `origin/main` 的 `grok-bots/roles/<bot>.md`。**生效靠把该段贴进该 bot 档案栏**；push 完侧边栏不会自动变。`roles/whale-trail-lab.md` 只贴进同名群。
 - 面向 bot 的改动仍须先推到 `origin/main`，再贴档。角色规划见 `grok-bots/ROLES.md`。
 - 文档分工:`runbooks/`（含 WhaleTrail 手册）给**开发期 agent**（如 Grok Build）；`grok-bots/roles/` 给 **box 运行期 bot**。两者不混用。
 - 跨项目的角色/协作决策记入 `journal/`（只追加、写明作者、写前 `git pull --rebase`）。

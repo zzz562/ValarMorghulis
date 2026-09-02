@@ -9,7 +9,7 @@
 
 ## box 上的 Grok Bot 助手
 
-六个人跑在共享 Grok Bot Linux 机上，不在 Mac mini 上。人设源是 valar `origin/main` 的 `roles/<bot>.md`，**生效靠把该段贴进该 bot 档案栏**（push 完侧边栏不会自动变）。群说明 [`roles/project-ops.md`](roles/project-ops.md) 只贴群，不进任何单个 bot。
+六个人跑在共享 Grok Bot Linux 机上，不在 Mac mini 上。人设源是 valar `origin/main` 的 `roles/<bot>.md`，**生效靠把该段贴进该 bot 档案栏**（push 完侧边栏不会自动变）。群说明 [`roles/whale-trail-lab.md`](roles/whale-trail-lab.md) 只贴进同名群，不进任何单个 bot。
 
 | Bot | 一句话 | 档案 |
 |-----|--------|------|
