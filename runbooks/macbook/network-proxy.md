@@ -70,6 +70,15 @@ dns:
 - **Grok Build 的公司内网模型不走代理**：`~/.grok/config.toml` 里 Muses 模型 `base_url` 是内网（10.x / weizhipin.com），代理规则必须把这些域名走 DIRECT，否则模型调用失败；不必在 toml 里给模型单独配代理。
 - 旧 ClashX 残留（`~/.config/clash` 的 `clash-core-service`、`~/Library/Application Support/clash_win_boomcloud`）建议清理，避免混淆。
 
+## 已知副作用：TUN 会让 git SSH 走节点
+
+开 TUN 后，`git@github.com` 的 SSH（22 端口）被 TUN 接管、经代理节点转发；本机场节点不放行 22 端口，导致 `git pull/push` 报 `Connection closed by 198.18.x.x port 22`。
+
+- **临时绕过（不改配置）**：`GIT_SSH_COMMAND='ssh -o Hostname=ssh.github.com -p 443' git push`
+- **永久方案二选一**：
+  1. `~/.ssh/config` 给 github.com 指定 `Hostname ssh.github.com` + `Port 443`；
+  2. 或 Clash 覆写里加 `DST-PORT,22,DIRECT`（所有 SSH 直连，符合本仓库「SSH 不走隧道」原则）。
+
 ## 复现验证命令
 
 ```bash
