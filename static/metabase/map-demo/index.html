@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FalaBoss map demo · city heat (example)</title>
+  <title>FalaBoss · Job by city heat</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     html, body { margin:0; height:100%; font-family: system-ui, sans-serif; }
     #map { height:100%; width:100%; background:#e8eef3; }
     .banner {
       position:absolute; z-index:1000; left:12px; top:12px; right:12px;
-      max-width:520px; background:rgba(255,255,255,.92); border:1px solid #d0d7de;
+      max-width:560px; background:rgba(255,255,255,.92); border:1px solid #d0d7de;
       border-radius:10px; padding:10px 12px; font-size:13px; line-height:1.45; color:#24292f;
       box-shadow:0 2px 8px rgba(0,0,0,.08);
     }
@@ -20,45 +20,34 @@
 </head>
 <body>
   <div class="banner">
-    <div><strong>Demo only</strong> · 巴西 50 城 · 淡底图 + 热力（非 pin 重点）</div>
-    <div class="warn">指标 = <code>population_2024</code>（维表示例），不是 Job Category / Ads 业务数。</div>
-    <div>给 Metabase iframe 用：整页 HTTPS 嵌即可。底图 Esri Light Gray，无 API key。</div>
+    <div><strong>Job by city</strong> · heat（非 pin）· 淡底图 Esri Light Gray（无 API key）</div>
+    <div>源：Metabase <code>Details: Job City Distribution</code> · 指标 <code>job_cnt</code>（distinct jobs）</div>
+    <div>对齐坐标：33/191 城 · 覆盖 job_cnt 917/1431 · 全量 all_job_cnt=1317</div>
+    <div class="warn">未进 50 城维表的城市不上图（158 城）。asof 2026-09-10 导出。</div>
   </div>
   <div id="map"></div>
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
   <script>
-    const CITIES = [{"city_name": "São Paulo", "uf": "SP", "lat": -23.5329, "lng": -46.6395, "value": 11895578}, {"city_name": "Rio de Janeiro", "uf": "RJ", "lat": -22.9129, "lng": -43.2003, "value": 6729894}, {"city_name": "Brasília", "uf": "DF", "lat": -15.7795, "lng": -47.9297, "value": 2982818}, {"city_name": "Fortaleza", "uf": "CE", "lat": -3.71664, "lng": -38.5423, "value": 2574412}, {"city_name": "Salvador", "uf": "BA", "lat": -12.9718, "lng": -38.5011, "value": 2568928}, {"city_name": "Belo Horizonte", "uf": "MG", "lat": -19.9102, "lng": -43.9266, "value": 2416339}, {"city_name": "Manaus", "uf": "AM", "lat": -3.11866, "lng": -60.0212, "value": 2279686}, {"city_name": "Curitiba", "uf": "PR", "lat": -25.4195, "lng": -49.2646, "value": 1829225}, {"city_name": "Recife", "uf": "PE", "lat": -8.04666, "lng": -34.8771, "value": 1587707}, {"city_name": "Goiânia", "uf": "GO", "lat": -16.6864, "lng": -49.2643, "value": 1494599}, {"city_name": "Belém", "uf": "PA", "lat": -1.4554, "lng": -48.4898, "value": 1398531}, {"city_name": "Porto Alegre", "uf": "RS", "lat": -30.0318, "lng": -51.2065, "value": 1389322}, {"city_name": "Guarulhos", "uf": "SP", "lat": -23.4538, "lng": -46.5333, "value": 1345364}, {"city_name": "Campinas", "uf": "SP", "lat": -22.9053, "lng": -47.0659, "value": 1185977}, {"city_name": "São Luís", "uf": "MA", "lat": -2.53874, "lng": -44.2825, "value": 1088057}, {"city_name": "Maceió", "uf": "AL", "lat": -9.66599, "lng": -35.735, "value": 994464}, {"city_name": "São Gonçalo", "uf": "RJ", "lat": -22.8268, "lng": -43.0634, "value": 960652}, {"city_name": "Campo Grande", "uf": "MS", "lat": -20.4486, "lng": -54.6295, "value": 954537}, {"city_name": "Teresina", "uf": "PI", "lat": -5.09194, "lng": -42.8034, "value": 902644}, {"city_name": "João Pessoa", "uf": "PB", "lat": -7.11509, "lng": -34.8641, "value": 888679}, {"city_name": "Duque de Caxias", "uf": "RJ", "lat": -22.7858, "lng": -43.3049, "value": 866347}, {"city_name": "Nova Iguaçu", "uf": "RJ", "lat": -22.7556, "lng": -43.4603, "value": 843046}, {"city_name": "São Bernardo do Campo", "uf": "SP", "lat": -23.6914, "lng": -46.5646, "value": 840499}, {"city_name": "Natal", "uf": "RN", "lat": -5.79357, "lng": -35.1986, "value": 785368}, {"city_name": "Santo André", "uf": "SP", "lat": -23.6737, "lng": -46.5432, "value": 778711}, {"city_name": "Sorocaba", "uf": "SP", "lat": -23.4969, "lng": -47.4451, "value": 757459}, {"city_name": "Osasco", "uf": "SP", "lat": -23.5324, "lng": -46.7916, "value": 756952}, {"city_name": "Uberlândia", "uf": "MG", "lat": -18.9141, "lng": -48.2749, "value": 754954}, {"city_name": "Ribeirão Preto", "uf": "SP", "lat": -21.1699, "lng": -47.8099, "value": 728400}, {"city_name": "São José dos Campos", "uf": "SP", "lat": -23.1896, "lng": -45.8841, "value": 724756}, {"city_name": "Jaboatão dos Guararapes", "uf": "PE", "lat": -8.11298, "lng": -35.015, "value": 683285}, {"city_name": "Cuiabá", "uf": "MT", "lat": -15.601, "lng": -56.0974, "value": 682932}, {"city_name": "Feira de Santana", "uf": "BA", "lat": -12.2664, "lng": -38.9663, "value": 657948}, {"city_name": "Joinville", "uf": "SC", "lat": -26.3045, "lng": -48.8487, "value": 654888}, {"city_name": "Contagem", "uf": "MG", "lat": -19.9321, "lng": -44.0539, "value": 649975}, {"city_name": "Aracaju", "uf": "SE", "lat": -10.9091, "lng": -37.0677, "value": 628849}, {"city_name": "Londrina", "uf": "PR", "lat": -23.304, "lng": -51.1691, "value": 577318}, {"city_name": "Florianópolis", "uf": "SC", "lat": -27.5945, "lng": -48.5477, "value": 576361}, {"city_name": "Serra", "uf": "ES", "lat": -20.121, "lng": -40.3074, "value": 572274}, {"city_name": "Juiz de Fora", "uf": "MG", "lat": -21.7595, "lng": -43.3398, "value": 565764}, {"city_name": "Aparecida de Goiânia", "uf": "GO", "lat": -16.8198, "lng": -49.2469, "value": 550925}, {"city_name": "Campos dos Goytacazes", "uf": "RJ", "lat": -21.7622, "lng": -41.3181, "value": 519011}, {"city_name": "Belford Roxo", "uf": "RJ", "lat": -22.764, "lng": -43.3992, "value": 518263}, {"city_name": "Niterói", "uf": "RJ", "lat": -22.8832, "lng": -43.1034, "value": 516720}, {"city_name": "Porto Velho", "uf": "RO", "lat": -8.76077, "lng": -63.8999, "value": 514873}, {"city_name": "Macapá", "uf": "AP", "lat": 0.034934, "lng": -51.0694, "value": 487200}, {"city_name": "Boa Vista", "uf": "RR", "lat": 2.82384, "lng": -60.6753, "value": 470169}, {"city_name": "Rio Branco", "uf": "AC", "lat": -9.97499, "lng": -67.8243, "value": 387852}, {"city_name": "Vitória", "uf": "ES", "lat": -20.3155, "lng": -40.3128, "value": 342800}, {"city_name": "Palmas", "uf": "TO", "lat": -10.24, "lng": -48.3558, "value": 323625}];
-    const map = L.map('map', { zoomControl: true, attributionControl: true })
-      .setView([-14.2, -51.9], 4);
-    // light / faded basemap
+    const CITIES = [{"city_name": "São Paulo", "uf": "SP", "lat": -23.5329, "lng": -46.6395, "value": 667, "source_city": "São Paulo"}, {"city_name": "São José dos Campos", "uf": "SP", "lat": -23.1896, "lng": -45.8841, "value": 38, "source_city": "São José dos Campos"}, {"city_name": "Campinas", "uf": "SP", "lat": -22.9053, "lng": -47.0659, "value": 35, "source_city": "Campinas"}, {"city_name": "Guarulhos", "uf": "SP", "lat": -23.4538, "lng": -46.5333, "value": 24, "source_city": "Guarulhos"}, {"city_name": "Florianópolis", "uf": "SC", "lat": -27.5945, "lng": -48.5477, "value": 17, "source_city": "Florianópolis"}, {"city_name": "Curitiba", "uf": "PR", "lat": -25.4195, "lng": -49.2646, "value": 15, "source_city": "Curitiba"}, {"city_name": "Belo Horizonte", "uf": "MG", "lat": -19.9102, "lng": -43.9266, "value": 15, "source_city": "Belo Horizonte"}, {"city_name": "Osasco", "uf": "SP", "lat": -23.5324, "lng": -46.7916, "value": 12, "source_city": "Osasco"}, {"city_name": "Santo André", "uf": "SP", "lat": -23.6737, "lng": -46.5432, "value": 12, "source_city": "Santo André"}, {"city_name": "São Bernardo do Campo", "uf": "SP", "lat": -23.6914, "lng": -46.5646, "value": 12, "source_city": "São Bernardo do Campo"}, {"city_name": "Sorocaba", "uf": "SP", "lat": -23.4969, "lng": -47.4451, "value": 8, "source_city": "Sorocaba"}, {"city_name": "Rio de Janeiro", "uf": "RJ", "lat": -22.9129, "lng": -43.2003, "value": 8, "source_city": "Rio de Janeiro"}, {"city_name": "Ribeirão Preto", "uf": "SP", "lat": -21.1699, "lng": -47.8099, "value": 8, "source_city": "Ribeirão Preto"}, {"city_name": "Brasília", "uf": "DF", "lat": -15.7795, "lng": -47.9297, "value": 7, "source_city": "Brasília"}, {"city_name": "Goiânia", "uf": "GO", "lat": -16.6864, "lng": -49.2643, "value": 6, "source_city": "Goiânia"}, {"city_name": "Salvador", "uf": "BA", "lat": -12.9718, "lng": -38.5011, "value": 4, "source_city": "Salvador"}, {"city_name": "Cuiabá", "uf": "MT", "lat": -15.601, "lng": -56.0974, "value": 4, "source_city": "Cuiabá"}, {"city_name": "Uberlândia", "uf": "MG", "lat": -18.9141, "lng": -48.2749, "value": 3, "source_city": "Uberlândia"}, {"city_name": "Fortaleza", "uf": "CE", "lat": -3.71664, "lng": -38.5423, "value": 3, "source_city": "Fortaleza"}, {"city_name": "Vitória", "uf": "ES", "lat": -20.3155, "lng": -40.3128, "value": 2, "source_city": "Vitória"}, {"city_name": "Contagem", "uf": "MG", "lat": -19.9321, "lng": -44.0539, "value": 2, "source_city": "Contagem"}, {"city_name": "Natal", "uf": "RN", "lat": -5.79357, "lng": -35.1986, "value": 2, "source_city": "Natal"}, {"city_name": "Londrina", "uf": "PR", "lat": -23.304, "lng": -51.1691, "value": 2, "source_city": "Londrina"}, {"city_name": "Campo Grande", "uf": "MS", "lat": -20.4486, "lng": -54.6295, "value": 2, "source_city": "Campo Grande"}, {"city_name": "Palmas", "uf": "TO", "lat": -10.24, "lng": -48.3558, "value": 1, "source_city": "Palmas"}, {"city_name": "Recife", "uf": "PE", "lat": -8.04666, "lng": -34.8771, "value": 1, "source_city": "Recife"}, {"city_name": "Manaus", "uf": "AM", "lat": -3.11866, "lng": -60.0212, "value": 1, "source_city": "Manaus"}, {"city_name": "Niterói", "uf": "RJ", "lat": -22.8832, "lng": -43.1034, "value": 1, "source_city": "Niterói"}, {"city_name": "Juiz de Fora", "uf": "MG", "lat": -21.7595, "lng": -43.3398, "value": 1, "source_city": "Juiz de Fora"}, {"city_name": "Joinville", "uf": "SC", "lat": -26.3045, "lng": -48.8487, "value": 1, "source_city": "Joinville"}, {"city_name": "Campos dos Goytacazes", "uf": "RJ", "lat": -21.7622, "lng": -41.3181, "value": 1, "source_city": "Campos dos Goytacazes"}, {"city_name": "Aparecida de Goiânia", "uf": "GO", "lat": -16.8198, "lng": -49.2469, "value": 1, "source_city": "Aparecida de Goiânia"}, {"city_name": "Porto Alegre", "uf": "RS", "lat": -30.0318, "lng": -51.2065, "value": 1, "source_city": "Porto Alegre"}];
+    const map = L.map('map', { zoomControl: true }).setView([-14.2, -51.9], 4);
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Tiles &copy; Esri',
       maxZoom: 16
     }).addTo(map);
-
+    if (!CITIES.length) throw new Error('no cities');
     const maxV = Math.max(...CITIES.map(c => c.value));
-    const heat = CITIES.map(c => [c.lat, c.lng, Math.pow(c.value / maxV, 0.55)]);
+    const heat = CITIES.map(c => [c.lat, c.lng, Math.pow(c.value / maxV, 0.5)]);
     L.heatLayer(heat, {
-      radius: 28,
-      blur: 22,
-      maxZoom: 8,
-      minOpacity: 0.25,
+      radius: 30, blur: 22, maxZoom: 8, minOpacity: 0.28,
       gradient: { 0.2: '#c6dbef', 0.45: '#6baed6', 0.7: '#2171b5', 1.0: '#08306b' }
     }).addTo(map);
-
-    // faint city labels on hover only via invisible circles
     const layer = L.layerGroup().addTo(map);
     CITIES.forEach(c => {
-      const r = 4 + 14 * Math.sqrt(c.value / maxV);
-      const m = L.circleMarker([c.lat, c.lng], {
-        radius: r,
-        color: 'transparent',
-        fillColor: '#2171b5',
-        fillOpacity: 0.15,
-        weight: 0
-      }).bindTooltip(`${c.city_name} (${c.uf})<br/>pop ${c.value.toLocaleString('en-US')}`, { sticky: true });
-      layer.addLayer(m);
+      const r = 5 + 16 * Math.sqrt(c.value / maxV);
+      L.circleMarker([c.lat, c.lng], {
+        radius: r, color: 'transparent', fillColor: '#2171b5', fillOpacity: 0.18, weight: 0
+      }).bindTooltip(`${c.city_name} (${c.uf})<br/>jobs ${c.value}`, { sticky: true }).addTo(layer);
     });
   </script>
 </body>
