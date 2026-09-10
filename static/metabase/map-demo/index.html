@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,10 +20,10 @@
 </head>
 <body>
   <div class="banner">
-    <div><strong>Job by city</strong> · heat（非 pin）· 淡底图 Esri Light Gray（无 API key）</div>
-    <div>源：Metabase <code>Details: Job City Distribution</code> · 指标 <code>job_cnt</code>（distinct jobs）</div>
-    <div>对齐坐标：33/191 城 · 覆盖 job_cnt 917/1431 · 全量 all_job_cnt=1317</div>
-    <div class="warn">未进 50 城维表的城市不上图（158 城）。asof 2026-09-10 导出。</div>
+    <div><strong>Job by city</strong> · heatmap (not pins) · Esri Light Gray basemap (no API key)</div>
+    <div>Source: Metabase <code>Details: Job City Distribution</code> · metric <code>job_cnt</code> (distinct jobs)</div>
+    <div>Geocoded: 33/191 cities · job_cnt covered 917/1431 · all_job_cnt=1317</div>
+    <div class="warn">Cities missing from the 50-city lat/lng dim are omitted (158). Export asof 2026-09-10.</div>
   </div>
   <div id="map"></div>
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
