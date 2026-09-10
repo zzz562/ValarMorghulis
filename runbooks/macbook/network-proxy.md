@@ -66,6 +66,7 @@ dns:
 
 - **代理引擎只留一个**：Clash Party 与 BoostNet 同时开，会出现「慢的那个占着系统代理 + TUN、快的那个空转」。别两个都开 TUN。
 - **Meet / 音视频必须 TUN**：网页/信令走 HTTPS 代理能通，但 WebRTC 音视频是 UDP，不走系统 HTTP 代理；只有 TUN 能接管。
+- **TUN 与办公内网直连 agent 冲突**：TUN 抢默认路由 + DNS 劫持（`any:53`），会把内网域名解析劫持到公共 DNS、破坏直连 app 的路由。因此 **TUN 按需开**：平时关（系统代理够用），开 Google Meet 时临时开，开完关。
 - **Clash Party 会「启动时自动更新订阅」**：直接改订阅 profile 文件会被下次启动冲掉；持久化要写 **Override**。
 - **Grok Build 的公司内网模型不走代理**：`~/.grok/config.toml` 里 Muses 模型 `base_url` 是内网（10.x / weizhipin.com），代理规则必须把这些域名走 DIRECT，否则模型调用失败；不必在 toml 里给模型单独配代理。
 - 旧 ClashX 残留（`~/.config/clash` 的 `clash-core-service`、`~/Library/Application Support/clash_win_boomcloud`）建议清理，避免混淆。
