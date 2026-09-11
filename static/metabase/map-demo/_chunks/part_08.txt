@@ -1,0 +1,54 @@
+96], [-48.3639, -5.1684], [-48.6992, -5.3201], [-48.5575, -5.4167], [-48.1947, -5.5631], [-48.2998, -5.796], [-48.2985, -6.0501], [-48.4171, -6.2986], [-48.6261, -6.4785], [-48.8259, -6.7547], [-49.1153, -6.8699], [-49.1853, -7.2352], [-49.2212, -7.7616], [-49.1767, -8.0615], [-49.3996, -8.5451], [-49.7677, -8.9337], [-49.9969, -9.2377], [-50.0896, -9.5457], [-50.2779, -9.9708], [-50.4181, -10.3546], [-50.5414, -10.6093], [-50.619, -10.8641], [-50.6999, -11.3131], [-50.6637, -11.6775], [-50.6568, -11.9668], [-50.6446, -12.3459], [-50.7013, -12.6435], [-50.5131, -12.8446], [-50.4348, -12.6577], [-50.1418, -12.3954], [-50.2958, -12.7107], [-49.9088, -12.9751], [-49.3031, -13.0288], [-49.1046, -12.8354], [-48.8469, -12.8091], [-48.6276, -13.0511], [-48.5537, -13.2042], [-48.3417, -13.2317], [-48.1533, -13.2797], [-47.966, -13.3135], [-47.6501, -13.3488], [-47.5687, -13.1169], [-47.3929, -13.2624], [-47.0915, -13.1734], [-46.4546, -12.9712], [-46.3048, -12.9785], [-46.3079, -12.9417], [-46.3025, -12.6847], [-46.266, -12.4987], [-46.3883, -12.2491], [-46.3363, -11.9544], [-46.3736, -11.7682], [-46.1551, -11.6502], [-46.4393, -11.521], [-46.2673, -10.9348], [-46.1608, -10.6594], [-45.7269, -10.3125], [-45.8671, -10.2541], [-46.0282, -10.2771], [-46.2683, -10.1812], [-46.4773, -9.9898], [-46.5961, -9.7473], [-46.5733, -9.4778], [-46.7992, -9.3388], [-46.9303, -9.106], [-47.0209, -8.9877], [-46.9261, -8.7353], [-46.8026, -8.4061], [-46.5077, -8.2696], [-46.5497, -7.9511], [-46.9413, -7.9977], [-47.1396, -7.9255], [-47.4002, -7.5679], [-47.5799, -7.4187], [-47.6507, -7.3023], [-47.6184, -7.0912], [-47.4962, -6.6972], [-47.4303, -6.4226]]]}}]};
+    const map = L.map('map', { zoomControl: true }).setView([-14.2, -51.9], 4);
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri', maxZoom: 16
+    }).addTo(map);
+
+    const values = GEO.features.map(f => f.properties.job_cnt || 0);
+    const maxV = Math.max(1, ...values);
+    function color(v) {
+      if (!v) return '#f0f0f0';
+      const t = v / maxV;
+      if (t > 0.6) return '#08306b';
+      if (t > 0.35) return '#2171b5';
+      if (t > 0.15) return '#6baed6';
+      if (t > 0.05) return '#c6dbef';
+      return '#deebf7';
+    }
+
+    function tooltipHtml(p) {
+      const cities = (p.cities || []).slice(0, 8)
+        .map(c => `${c.city_name}: ${c.job_cnt}`)
+        .join('<br/>');
+      const more = (p.city_rows || 0) > 8 ? `<br/>… +${p.city_rows - 8} more cities` : '';
+      return `<strong>${p.state_name || p.name} (${p.uf || ''})</strong><br/>`
+        + `jobs: <strong>${p.job_cnt || 0}</strong><br/>`
+        + (cities ? `<hr style="margin:4px 0;border:none;border-top:1px solid #ddd"/>${cities}${more}` : '<em>no city rows</em>');
+    }
+
+    const layer = L.geoJSON(GEO, {
+      style: f => ({
+        fillColor: color(f.properties.job_cnt || 0),
+        weight: 1,
+        color: '#fff',
+        fillOpacity: 0.85
+      }),
+      onEachFeature: (f, lyr) => {
+        lyr.bindTooltip(tooltipHtml(f.properties), { sticky: true, opacity: 0.95 });
+        lyr.on({
+          mouseover: e => e.target.setStyle({ weight: 2, color: '#333' }),
+          mouseout: e => layer.resetStyle(e.target)
+        });
+      }
+    }).addTo(map);
+
+    const legend = document.getElementById('legend');
+    const breaks = [0, 0.05, 0.15, 0.35, 0.6, 1].map(t => Math.round(t * maxV));
+    legend.innerHTML = '<div><strong>job_cnt</strong></div>' + [0,1,2,3,4].map(i => {
+      const a = breaks[i], b = breaks[i+1];
+      const mid = (a+b)/2;
+      return `<div><i style="background:${color(mid || 1)}"></i> ${a}–${b}</div>`;
+    }).join('');
+  </script>
+</body>
+</html>
