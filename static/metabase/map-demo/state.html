@@ -2,29 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FalaBoss · Job by state</title>
-  <meta name="description" content="Job by state choropleth" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    html, body { margin:0; height:100%; font-family: system-ui, sans-serif; }
+    #map { height:100%; width:100%; background:#e8eef3; }
+    .banner {
+      position:absolute; z-index:1000; left:12px; top:12px; right:12px;
+      max-width:560px; background:rgba(255,255,255,.92); border:1px solid #d0d7de;
+      border-radius:10px; padding:10px 12px; font-size:13px; line-height:1.45; color:#24292f;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+    .banner strong { color:#0969da; }
+    .banner .warn { color:#9a6700; }
+    #legend {
+      position:absolute; z-index:1000; left:12px; bottom:24px;
+      background:rgba(255,255,255,.92); border:1px solid #d0d7de; border-radius:8px;
+      padding:8px 10px; font-size:12px; line-height:1.4;
+    }
+    #legend i { display:inline-block; width:14px; height:12px; margin-right:6px; vertical-align:middle; }
+    #status { position:absolute; z-index:1001; left:12px; top:50%; transform:translateY(-50%);
+      background:#fff; padding:12px 16px; border-radius:8px; border:1px solid #d0d7de; }
+  </style>
 </head>
 <body>
-  <noscript>Job by state choropleth requires JavaScript.</noscript>
-  <p id="status">Loading Job by state choropleth…</p>
+  <div class="banner">
+    <div><strong>Job by state</strong> · choropleth · Esri Light Gray (no API key)</div>
+    <div>Source: Metabase <code>Details: Job City Distribution</code> aggregated by <code>state_name</code></div>
+    <div>Metric: sum of city <code>job_cnt</code> · hover a state for total + top cities</div>
+    <div class="warn">Export asof 2026-09-10. Unknown/na state rows are not drawn on polygons.</div>
+  </div>
+  <div id="status">Loading…</div>
+  <div id="map"></div>
+  <div id="legend"></div>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
   (async () => {
     const status = document.getElementById('status');
     try {
-      const base = 'https://raw.githubusercontent.com/zzz562/ValarMorghulis/main/static/metabase/map-demo/_b64/';
-      let b64 = '';
-      for (let i = 0; i <= 22; i++) {
-        const n = String(i).padStart(2, '0');
-        const res = await fetch(base + 'b64_' + n + '.txt');
-        if (!res.ok) throw new Error('chunk ' + n + ' HTTP ' + res.status);
-        b64 += await res.text();
+      const GEO_URL = 'https://cdn.jsdelivr.net/gh/zzz562/whaletrail-lab@main/metabase/brazil_states_compact.geojson';
+      const JOBS_URL = new URL('jobs_by_state.json', window.location.href).toString();
+      const [geoRes, jobsRes] = await Promise.all([fetch(GEO_URL), fetch(JOBS_URL)]);
+      if (!geoRes.ok) throw new Error('geo HTTP ' + geoRes.status);
+      if (!jobsRes.ok) throw new Error('jobs HTTP ' + jobsRes.status);
+      const geo = await geoRes.json();
+      const jobsPayload = await jobsRes.json();
+      const byName = jobsPayload.states || {};
+
+      const GEO = {
+        type: 'FeatureCollection',
+        features: (geo.features || []).map(f => {
+          const name = (f.properties && (f.properties.state_name || f.properties.name)) || '';
+          const j = byName[name] || {};
+          return {
+            type: 'Feature',
+            properties: {
+              state_name: name,
+              name: name,
+              uf: (f.properties && f.properties.uf) || '',
+              job_cnt: j.job_cnt || 0,
+              cities: j.cities || [],
+              city_rows: (j.cities || []).length
+            },
+            geometry: f.geometry
+          };
+        })
+      };
+
+      status.remove();
+      const map = L.map('map', { zoomControl: true }).setView([-14.2, -51.9], 4);
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri', maxZoom: 16
+      }).addTo(map);
+
+      const values = GEO.features.map(f => f.properties.job_cnt || 0);
+      const maxV = Math.max(1, ...values);
+      function color(v) {
+        if (!v) return '#f0f0f0';
+        const t = v / maxV;
+        if (t > 0.6) return '#08306b';
+        if (t > 0.35) return '#2171b5';
+        if (t > 0.15) return '#6baed6';
+        if (t > 0.05) return '#c6dbef';
+        return '#deebf7';
       }
-      const bin = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
-      const html = new TextDecoder('utf-8').decode(bin);
-      document.open();
-      document.write(html);
-      document.close();
+      function tooltipHtml(p) {
+        const cities = (p.cities || []).slice(0, 8)
+          .map(c => `${c.city_name}: ${c.job_cnt}`)
+          .join('<br/>');
+        const more = (p.city_rows || 0) > 8 ? `<br/>… +${p.city_rows - 8} more` : '';
+        return `<strong>${p.state_name || p.name} (${p.uf || ''})</strong><br/>`
+          + `jobs: <strong>${p.job_cnt || 0}</strong><br/>`
+          + (cities ? `<br/>Top cities<br/>${cities}${more}` : '');
+      }
+      L.geoJSON(GEO, {
+        style: f => ({
+          fillColor: color(f.properties.job_cnt || 0),
+          weight: 1, color: '#fff', fillOpacity: 0.85
+        }),
+        onEachFeature: (f, layer) => {
+          layer.bindTooltip(tooltipHtml(f.properties), { sticky: true });
+        }
+      }).addTo(map);
+
+      const legend = document.getElementById('legend');
+      const stops = [0, 0.05, 0.15, 0.35, 0.6, 1].map(t => Math.round(t * maxV));
+      legend.innerHTML = '<div><strong>job_cnt</strong></div>' + [0,1,2,3,4].map(i => {
+        const a = stops[i], b = stops[i+1];
+        const mid = (a + b) / 2;
+        return `<div><i style="background:${color(i===0?0:mid||1)}"></i> ${a}–${b}</div>`;
+      }).join('');
     } catch (e) {
       status.textContent = 'Failed to load choropleth: ' + e;
     }
