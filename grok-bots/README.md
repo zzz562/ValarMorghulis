@@ -2,25 +2,23 @@
 
 > **角色规划见 [`ROLES.md`](ROLES.md)**。本文件登记两套东西，不要混：
 >
-> 1. **box 上的 6 个 Grok Bot 助手**（人设在 `roles/*.md`）
-> 2. **Mini / 阿里云上的 OpenClaw Gateway 与 Telegram**（服务，不是那六个人）
+> 1. **box 上的 Grok Bot 助手**（人设在 `roles/*.md`）
+> 2. **Mini / 阿里云上的 OpenClaw Gateway 与 Telegram**（服务，不是 Bot 本身）
 >
 > 密钥、Gateway Token **一律不写入本仓库**（见对应 runbook 的“备份清单”，实际值放机器上的 `~/.openclaw/.env` 等）。
 
 ## box 上的 Grok Bot 助手
 
-六个人跑在共享 Grok Bot Linux 机上，不在 Mac mini 上。人设源是 valar `origin/main` 的 `roles/<bot>.md`，**生效靠把该段贴进该 bot 档案栏**（push 完侧边栏不会自动变）。群说明 [`roles/whale-trail-lab.md`](roles/whale-trail-lab.md) 只贴进同名群，不进任何单个 bot。
+跑在共享 Grok Bot Linux 机上，不在 Mac mini 上。人设源是 valar `origin/main` 的 `roles/<bot>.md`，**生效靠把该段贴进该 bot 档案栏**（push 完侧边栏不会自动变）。
 
 | Bot | 一句话 | 档案 |
 |-----|--------|------|
-| **Axiom** | 组织者 / owner | [`roles/axiom.md`](roles/axiom.md) |
-| **RD** | 技术开发 | [`roles/rd.md`](roles/rd.md) |
-| **Big-A** | A 股跟庄日线 | [`roles/big-a-mast.md`](roles/big-a-mast.md) |
-| **Gold Mast** | 黄金一轨 | [`roles/gold-mast.md`](roles/gold-mast.md) |
-| **Data Mast** | 数据合同 | [`roles/data-mast.md`](roles/data-mast.md) |
-| **Challenger** | 审视者 | [`roles/challenger.md`](roles/challenger.md) |
+| **Axiom** | Chief of Staff / 前门 | [`roles/axiom.md`](roles/axiom.md) |
+| **Fiona** | 私人秘书 | [`roles/fiona.md`](roles/fiona.md) |
+| **Mast** | 市场与量化研究 | [`roles/mast.md`](roles/mast.md) |
+| **Forge** | 技术执行（可选） | [`roles/forge.md`](roles/forge.md) |
 
-完整名册与边界见 [`ROLES.md`](ROLES.md)。显示名是 **Big-A**（侧边栏也是这个）；档案文件名仍是 `big-a-mast.md`。
+完整名册与边界见 [`ROLES.md`](ROLES.md)。
 
 ## Mini / VPS 上的 OpenClaw 服务
 
